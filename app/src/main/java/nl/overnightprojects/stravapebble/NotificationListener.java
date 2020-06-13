@@ -13,6 +13,9 @@ import com.getpebble.android.kit.Constants;
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 
+import java.util.concurrent.TimeUnit;
+
+
 public class NotificationListener extends NotificationListenerService {
 
     private String TAG = this.getClass().getSimpleName();
@@ -21,6 +24,10 @@ public class NotificationListener extends NotificationListenerService {
     private Integer paceSplitStartTime = 0;
     private Float paceSplitStartDistance = Float.valueOf(0);
     private String paceSplitPace = "0:00";
+
+    private long lastUpdate = 0;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -56,6 +63,12 @@ public class NotificationListener extends NotificationListenerService {
             pebbleAppStatus = true;
         }
         if ("stop".equalsIgnoreCase(sbn.getNotification().actions[0].title.toString())) {
+            if (System.currentTimeMillis() - lastUpdate < MIN_TIME_BETWEEN_UPDATES) {
+                return;
+            }
+
+            lastUpdate = System.currentTimeMillis();
+
             PebbleDictionary dict = new PebbleDictionary();
 
             String[] text = sbn.getNotification().extras.get("android.title").toString().split(" ");
@@ -162,4 +175,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
     };
+
+    private static long MIN_TIME_BETWEEN_UPDATES = TimeUnit.SECONDS.toMillis(20);
 }
+
