@@ -90,7 +90,6 @@ public class NotificationListener extends NotificationListenerService {
             paceSplitPace = minutesPart + ":" + secondsPartString;
             paceSplitStartTime = currentTime;
             paceSplitStartDistance = dist;
-            pebbleAppStatus = false;
         }
         return paceSplitPace;
     }
