@@ -13,6 +13,7 @@ import com.getpebble.android.kit.Constants;
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -56,7 +57,7 @@ public class NotificationListener extends NotificationListenerService {
         Intent i = new  Intent("com.sanyaas.stravapebble.NOTIFICATION_LISTENER");
         i.putExtra("notification_event","onNotificationPosted :" + sbn.getPackageName() + "\n");
         if(!pebbleAppStatus){
-            PebbleKit.startAppOnPebble(getApplicationContext(), Constants.SPORTS_UUID);
+            PebbleKit.startAppOnPebble(getApplicationContext(), MUSIC_BOSS_SPORTS_APP);
             PebbleDictionary dict = new PebbleDictionary();
 
             PebbleKit.sendDataToPebble(getApplicationContext(), Constants.SPORTS_UUID, dict);
@@ -112,7 +113,6 @@ public class NotificationListener extends NotificationListenerService {
         if (!"com.strava".equalsIgnoreCase(sbn.getPackageName())){
             return;
         }
-        PebbleKit.closeAppOnPebble(getApplicationContext(), Constants.SPORTS_UUID);
         pebbleAppStatus = false;
     }
 
@@ -177,5 +177,7 @@ public class NotificationListener extends NotificationListenerService {
     };
 
     private static long MIN_TIME_BETWEEN_UPDATES = TimeUnit.SECONDS.toMillis(20);
+    private static UUID MUSIC_BOSS_SPORTS_APP = UUID.fromString("10e5ae7b-9b4b-4fd0-9708-4bf9bce5033d");
 }
+
 
